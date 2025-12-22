@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>rsRNAQuant Report</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+    body {
+        font-family: "Times New Roman", Georgia, serif;
+        background-color: #ffffff;
+        color: #222;
+        margin: 40px auto;
+        max-width: 1100px;
+        line-height: 1.7;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 2.2em;
+        margin-bottom: 10px;
+    }
+
+    h2 {
+        border-bottom: 2px solid #333;
+        padding-bottom: 4px;
+        margin-top: 50px;
+        font-size: 1.6em;
+    }
+
+    h3 {
+        margin-top: 30px;
+        font-size: 1.25em;
+    }
+
+    .meta {
+        text-align: center;
+        font-size: 0.95em;
+        color: #555;
+        margin-bottom: 40px;
+    }
+
+    ul {
+        margin-left: 40px;
+    }
+
+    .figure {
+        margin: 25px 0 40px 0;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        background-color: #fafafa;
+    }
+
+    .figure-title {
+        font-weight: bold;
+        margin-bottom: 10px;
+        font-size: 1.05em;
+    }
+
+    .img-viewer {
+        width: 100%;
+        max-width: 1000px;
+        display: block;
+        margin: 0 auto;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .figure-links {
+        margin-top: 8px;
+        text-align: right;
+        font-size: 0.9em;
+    }
+
+    .figure-links a {
+        margin-left: 12px;
+        text-decoration: none;
+        color: #0047ab;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 0.95em;
+    }
+
+    th, td {
+        border: 1px solid #ccc;
+        padding: 6px 10px;
+    }
+
+    th {
+        background-color: #f0f0f0;
+    }
+
+    pre {
+        background: #f7f7f7;
+        padding: 15px;
+        overflow-x: auto;
+        border-radius: 4px;
+        font-size: 0.9em;
+    }
+
+    footer {
+        margin-top: 80px;
+        padding-top: 20px;
+        border-top: 1px solid #ccc;
+        text-align: center;
+        font-size: 0.9em;
+        color: #555;
+    }
+    </style>
+</head>
+
+<body>
+
+<h1>rsRNAQuant Analysis Report</h1>
+
+<div class="meta">
+    <p><strong>Finished Time:</strong> {{ report_time }}</p>
+    <p><strong>Project:</strong> {{ GSE }}</p>
+</div>
+
+<h2>Input Information</h2>
+<ul>
+    <li><strong>Config File:</strong> {{ config_file }}</li>
+    <li><strong>Sample Number:</strong> {{ sample_count }}; <strong>Case:</strong> {{ case_count }}, <strong>Control:</strong> {{ control_count }}</li>
+    <li><strong>Output Directory:</strong> {{ results_dir }}</li>
+</ul>
+
+<h2>Analysis Results</h2>
+
+<h3>1. rRNA Length Distribution</h3>
+<div class="figure">
+    <div class="figure-title">Figure. Length distribution of rRNA-derived small RNAs.</div>
+    <img src="plots/{{ GSE }}_rRNA_Length_Distribution.png" class="img-viewer">
+    <div class="figure-links">
+        <a href="plots/{{ GSE }}_rRNA_Length_Distribution.png" target="_blank">Open</a>
+        <a href="plots/{{ GSE }}_rRNA_Length_Distribution.png" download>Download</a>
+    </div>
+</div>
+
+<h3>2. rRNA Subtype Proportion</h3>
+<div class="figure">
+    <div class="figure-title">Figure. Subtype composition of rRNA-derived small RNAs.</div>
+    <img src="plots/{{ GSE }}_rRNA_subtype_HollowPieChart.png" class="img-viewer">
+    <div class="figure-links">
+        <a href="plots/{{ GSE }}_rRNA_subtype_HollowPieChart.png" target="_blank">Open</a>
+        <a href="plots/{{ GSE }}_rRNA_subtype_HollowPieChart.png" download>Download</a>
+    </div>
+</div>
+
+<h3>3. rRNA End Proportion</h3>
+<div class="figure">
+    <div class="figure-title">Figure. End-position preference of rRNA-derived fragments.</div>
+    <img src="plots/{{ GSE }}_rRNA_End_StackBarPlot.png" class="img-viewer" style="max-width: 700px; max-height: 700px; width: auto; height: auto;">
+    <div class="figure-links">
+        <a href="plots/{{ GSE }}_rRNA_End_StackBarPlot.png" target="_blank">Open</a>
+        <a href="plots/{{ GSE }}_rRNA_End_StackBarPlot.png" download>Download</a>
+    </div>
+</div>
+
+<h3>4. rRNA Coverage Profiles</h3>
+
+{% for rRNA in ["5S","5.8S","18S","28S","45S","12S","16S"] %}
+<div class="figure">
+    <div class="figure-title">Figure. Coverage profile of {{ rRNA }} rRNA.</div>
+    <img src="plots/{{ GSE }}_{{ rRNA }}_Coverage.png" class="img-viewer" style="max-width: 700px; max-height: 700px; width: auto; height: auto;">
+    <div class="figure-links">
+        <a href="plots/{{ GSE }}_{{ rRNA }}_Coverage.png" target="_blank">Open</a>
+        <a href="plots/{{ GSE }}_{{ rRNA }}_Coverage.png" download>Download</a>
+    </div>
+</div>
+{% endfor %}
+
+<h3>5. rRNA Co-expression Analysis</h3>
+<div class="figure">
+    <div class="figure-title">Figure. Correlation matrix of rRNA expression.</div>
+    <img src="plots/{{ GSE }}_rRNA_coExpression_Corrplot.png" class="img-viewer">
+    <div class="figure-links">
+        <a href="plots/{{ GSE }}_rRNA_coExpression_Corrplot.png" target="_blank">Open</a>
+        <a href="plots/{{ GSE }}_rRNA_coExpression_Corrplot.png" download>Download</a>
+    </div>
+</div>
+
+<h2>Related Result Files</h2>
+<p> Click to Download:</p>
+<ul>
+    <li><a href="stats/{{ GSE }}_alignment_summary.csv" download>Alignment summary</a></li>
+    <li><a href="stats/{{ GSE }}_rRNA_expression_matrix.txt" download>Expression matrix</a></li>
+    <li><a href="stats/{{ GSE }}_rRNA_count_matrix.txt" download>Count matrix</a></li>
+</ul>
+
+<h2>rsRNA Biomarker Analysis</h2>
+
+<h3>Differential Expression</h3>
+<p><strong>Up-regulated:</strong> {{ up_value }}</p>
+<p><strong>Down-regulated:</strong> {{ down_value }}</p>
+
+<div class="figure">
+    <div class="figure-title">Figure. Volcano plot of differential rsRNAs.</div>
+    <img src="plots/{{ GSE }}_VolcanoPlot.png" class="img-viewer" style="max-width: 700px; max-height: 700px; width: auto; height: auto;">
+    <div class="figure-links">
+        <a href="plots/{{ GSE }}_VolcanoPlot.png" target="_blank">Open</a>
+        <a href="plots/{{ GSE }}_VolcanoPlot.png" download>Download</a>
+    </div>
+</div>
+
+<h2>Machine Learning Analysis</h2>
+
+<div class="figure">
+    <div class="figure-title">Figure. Feature selection using LASSO regression.</div>
+    <img src="plots/{{ GSE }}_Lasso.png" class="img-viewer" style="max-width: 700px; max-height: 700px; width: auto; height: auto;">
+    <div class="figure-links">
+        <a href="plots/{{ GSE }}_Lasso.png" target="_blank">Open</a>
+        <a href="plots/{{ GSE }}_Lasso.png" download>Download</a>
+    </div>
+</div>
+
+<h3>Selected Biomarkers</h3>
+<pre>{{ biomarker_table }}</pre>
+
+<h2>Model Evaluation</h2>
+
+<div class="figure">
+    <div class="figure-title">Figure. Feature importance estimated by Random Forest.</div>
+    <img src="plots/{{ GSE }}_RF.png" class="img-viewer">
+    <div class="figure-links">
+        <a href="plots/{{ GSE }}_RF.png" target="_blank">Open</a>
+        <a href="plots/{{ GSE }}_RF.png" download>Download</a>
+    </div>
+</div>
+
+<div class="figure">
+    <div class="figure-title">Figure. ROC curve of classification performance.</div>
+    <img src="plots/{{ GSE }}_ROC.png" class="img-viewer" style="max-width: 700px; max-height: 700px; width: auto; height: auto;">
+    <div class="figure-links">
+        <a href="plots/{{ GSE }}_ROC.png" target="_blank">Open</a>
+        <a href="plots/{{ GSE }}_ROC.png" download>Download</a>
+    </div>
+</div>
+
+<h2>Related Files</h2>
+<p> Click to Download:</p>
+<ul>
+    <li><a href="plots/{{ GSE }}_DA_result_noNA.txt" download>Differential analysis results</a></li>
+    <li><a href="plots/{{ GSE }}_lasso_selected_features_rpm.txt" download>LASSO-selected features</a></li>
+</ul>
+
+<footer>
+    <p>
+        <strong>rsRNAQuant</strong> |
+        <a href="https://github.com/bigricego/rsRNAQuant.git" target="_blank">GitHub</a> |
+        <a href="http://rsrnadisease.zhanglab-bioinfo.cn" target="_blank">rsRNADisease</a> |
+        <a href="https://xozhanglab.com" target="_blank">Zhang Lab</a>
+    </p>
+    <p>Any comments or suggestions are welcome.</p>
+</footer>
+
+</body>
+</html>

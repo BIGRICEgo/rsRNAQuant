@@ -1,0 +1,33 @@
+raw_data_dir: "data"
+results_dir: "results"
+scripts_dir: "scripts"
+annotations_dir: "annotation"
+ncRNA: false
+intermediate_files: false
+
+# Project infos
+project: "test" # Modify this to your project name
+samples: # Modify this to your sample names
+  - case1
+  - case2
+  - case3
+  - case4
+  - case5
+  - control1
+  - control2
+  - control3
+  - control4
+  - control5
+groups: # Modify your Group to which samples belong.
+  case:
+    - case1
+    - case2
+    - case3
+    - case4
+    - case5
+  control:
+    - control1
+    - control2
+    - control3
+    - control4
+    - control5
