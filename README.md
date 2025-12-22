@@ -72,7 +72,7 @@ Regarding annotation references, we have pre-built the Bowtie index files. Users
 2. To download the test examples, please use this link: 
 https://yunpan.tongji.edu.cn/link/AA71605A6F3DA24E24984C48C16704A00D
 
-    - To unpack references, please use the code below：
+    - To unpack test examples, please use the code below：
       ```bash
         cd data/test/
         tar -xJvf test.tar.xz
