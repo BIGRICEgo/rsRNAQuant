@@ -248,42 +248,46 @@ out <- as.data.frame(out)
 subtype_order <- c("5S","5.8S","18S","28S","45S","12S","16S")
 out <- out[order(subtype_order), ]
 out$Subtype <- factor(out$Subtype,levels =subtype_order )
-spearman_data <- as.data.frame(t(out))
-colnames(spearman_data) <- spearman_data[1,]
-spearman_data <- spearman_data[-1,]
+spearman_data <- as.data.frame(t(out[,-1]))
+colnames(spearman_data) <- t(out[,1])
 
 ## Plot
 suppressPackageStartupMessages(library(corrplot))
 suppressPackageStartupMessages(library(Hmisc))
 col2 = colorRampPalette(c('#213d76',  'white', '#d0343d'))
-spearman_data_case <- as.matrix(spearman_data[grep("case",rownames(spearman_data)), ])
-spearman_res_case <- rcorr(spearman_data_case, type = "spearman")
-spearman_res_case$r[is.na(spearman_res_case$r)]<-0
-write.table(spearman_res_case$r, file=paste0(OUTPUT_DIR, "/",GSE_ID, "_CoExpression_Spearman_case.txt"), sep="\t", quote=FALSE, row.names=TRUE, col.names=TRUE)
 
-# Unify order
-custom_order <- colnames(spearman_res_case$r)
+spearman_data_case <- as.matrix(spearman_data[grep("case",rownames(spearman_data)), ])
+r_case <- cor(spearman_data_case, method = "spearman")
+r_case[is.na(r_case)] <- 0
+write.table(r_case, file=paste0(OUTPUT_DIR, "/",GSE_ID, "_CoExpression_Spearman_case.txt"), sep="\t", quote=FALSE, row.names=TRUE, col.names=TRUE)
+
 
 spearman_data_control <- as.matrix(spearman_data[grep("control",rownames(spearman_data)), ])
-spearman_res_control <- rcorr(spearman_data_control, type = "spearman")
-spearman_res_control$r[is.na(spearman_res_control$r)]<-0
+r_control <- cor(spearman_data_control, method = "spearman")
+r_control[is.na(r_control)] <- 0
 
-res_control <- spearman_res_control$r[custom_order, custom_order]
-write.table(res_control, file=paste0(OUTPUT_DIR, "/",GSE_ID, "_CoExpression_Spearman_control.txt"), sep="\t", quote=FALSE, row.names=TRUE, col.names=TRUE)
+# Unify order
+p5 <- corrplot(r_case, order = "AOE", tl.col = "black", tl.srt = 45)
+custom_order <- colnames(p5$corr)
+r_control <- r_control[
+  match(custom_order, rownames(r_control)),
+  match(custom_order, colnames(r_control))
+]
+write.table(r_control, file=paste0(OUTPUT_DIR, "/",GSE_ID, "_CoExpression_Spearman_control.txt"), sep="\t", quote=FALSE, row.names=TRUE, col.names=TRUE)
 
 
 pdf(paste(OUTPUT_DIR, "/",GSE_ID,  "_rRNA_coExpression_Corrplot.pdf",sep=""), height = 5, width = 10)
 par(mfrow = c(1, 2))
-corrplot(spearman_res_case$r, order = "AOE", tl.col = "black", tl.srt = 45,col = col2(10), title = "Case", mar = c(0, 0, 1, 0))
-corrplot(res_control, order = "AOE", tl.col = "black", tl.srt = 45,col = col2(10), title = "Control", mar = c(0, 0, 1, 0))
+corrplot(r_case, order = "AOE", tl.col = "black", tl.srt = 45,col = col2(10), title = "Case", mar = c(0, 0, 1, 0))
+corrplot(r_control,  tl.col = "black", tl.srt = 45,col = col2(10), title = "Control", mar = c(0, 0, 1, 0))
 dev.off()
 
 message(paste0("Saved rRNA CoExpression Plot to ", OUTPUT_DIR))
 
 png(filename = paste0(OUTPUT_DIR, "/", GSE_ID, "_rRNA_coExpression_Corrplot.png"), width = 10, height = 5, units = "in", res = 300)
 par(mfrow = c(1, 2))
-corrplot(spearman_res_case$r, order = "AOE", tl.col = "black", tl.srt = 45,col = col2(10), title = "Case", mar = c(0, 0, 1, 0))
-corrplot(res_control, order = "AOE", tl.col = "black", tl.srt = 45,col = col2(10), title = "Control", mar = c(0, 0, 1, 0))
+corrplot(r_case, order = "AOE", tl.col = "black", tl.srt = 45,col = col2(10), title = "Case", mar = c(0, 0, 1, 0))
+corrplot(r_control,  tl.col = "black", tl.srt = 45,col = col2(10), title = "Control", mar = c(0, 0, 1, 0))
 dev.off()
 
 }
