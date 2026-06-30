@@ -1,14 +1,14 @@
-# rsRNAQuant
+# rSEEK
 
-**rsRNAQuant** is an automated pipeline for quantification and annotation of **rRNA-derived small RNAs (rsRNAs).** It identifies and classifies rsRNAs by providing information on rsRNA length, rsRNA abundance, parental rRNA subtype, parental rRNA end, and other relevant features. It also allows users to optionally perform customized analyses of other small non-coding RNAs (sncRNAs), including tsRNAs, ysRNAs, miRNAs, and additional sncRNA types from small RNA-seq data. 
+**rSEEK** (rsRNA Systematic Exploration Kit) is an automated pipeline for quantification and annotation of **rRNA-derived small RNAs (rsRNAs).** It identifies and classifies rsRNAs by providing information on rsRNA length, rsRNA abundance, parental rRNA subtype, parental rRNA end, and other relevant features. It also allows users to optionally perform customized analyses of other small non-coding RNAs (sncRNAs), including tsRNAs, ysRNAs, miRNAs, and additional sncRNA types from small RNA-seq data. 
 
-rsRNAQuant integrates preprocessing, hierarchical mapping, read assignment, normalization, and downstream visualization in a unified framework. It is implemented using **Python, Bash, R**, and **Snakemake**, ensuring reproducibility and scalability across platforms.
+rSEEK integrates preprocessing, hierarchical mapping, read assignment, normalization, and downstream visualization in a unified framework. It is implemented using **Python, Bash, R**, and **Snakemake**, ensuring reproducibility and scalability across platforms.
 
 ---
 
 ## 🔬 Overview
 
-rsRNAQuant performs:
+rSEEK performs:
 
 * Read preprocessing, including length/quality filtering, adapter trimming, and contaminant removal
 * Hierarchical alignment to rRNA references
@@ -31,10 +31,10 @@ rsRNAQuant performs:
 * [[Snakemake](https://snakemake.readthedocs.io/en/stable/)] 
 
 ### 1️⃣ Clone the repository
-To use rsRNAQuant, you can simply **download the repository** and run the workflow out of the box. Snakemake will automatically handle all required dependencies, provided that it is installed and accessible.
+To use rSEEK, you can simply **download the repository** and run the workflow out of the box. Snakemake will automatically handle all required dependencies, provided that it is installed and accessible.
 ```bash
-git clone https://github.com/BIGRICEgo/rsRNAQuant.git
-cd rsRNAQuant
+git clone https://github.com/BIGRICEgo/rSEEK.git
+cd rSEEK
 ```
 
 ### 2️⃣ Create the conda environment and install dependencies
@@ -43,14 +43,14 @@ We **recommend** using **conda** together with **Mamba** for faster Snakemake in
 
 ```bash
 conda env create -f config/environment.yml
-conda activate rsrnaquant
+conda activate rSEEK
 ```
 
 If you prefer manual installation, using the command belows will install the necessary packages: 
 
 ```bash
-conda create -n rsrnaquant python=3.9
-conda activate rsrnaquant
+conda create -n rSEEK python=3.9
+conda activate rSEEK
 pip install snakemake==9.3.3
 conda install -c bioconda trim_galore bowtie samtools
 conda install -c conda-forge r-base r-ggplot2 r-reshape2 r-dplyr r-tidyr r-optparse r-Hmisc r-corrplot r-jsonlite r-ggforce r-grid r-patchwork r-DESeq2 r-caret r-glmnet r-MASS r-pROC r-randomForest r-ggrepel r-RColorBrewer
@@ -77,7 +77,7 @@ https://yunpan.tongji.edu.cn/link/AA71605A6F3DA24E24984C48C16704A00D
         cd data/test/
         tar -xJvf test.tar.xz
         ```
-    -  The test sample results are included in the rsRNAQuant package. You can find them in the file `Sample_test_results.tar.xz` under `rsRNAQuant/results/`, which can be extracted to view the outputs.
+    -  The test sample results are included in the rSEEK package. You can find them in the file `Sample_test_results.tar.xz` under `rSEEK/results/`, which can be extracted to view the outputs.
 
 
 ---
@@ -85,7 +85,7 @@ https://yunpan.tongji.edu.cn/link/AA71605A6F3DA24E24984C48C16704A00D
 ## 📂 Directory Structure
 
 ```bash
-rsRNAQuant/
+rSEEK/
 ├── assets/
 ├── config/
 │   ├── config.yaml
@@ -274,7 +274,7 @@ The Snakemake framework provides flexible rule definition and workflow control, 
 
 ## 📚︎ More Infos
 
-👉 See more usage details and **full-size report.html** in [[**Guidelines**](http://rsrnadisease.zhanglab-bioinfo.cn/Tool)] for rsRNAQuant. 
+👉 See more usage details and **full-size report.html** in [[**Guidelines**](http://rsrnadisease.zhanglab-bioinfo.cn/Tool)] for rSEEK. 
 
 🚩 More informations could be found in related database: [[**rsRNADisease**](http://rsrnadisease.zhanglab-bioinfo.cn/)].
 
@@ -298,8 +298,8 @@ If you have any questions, bug reports, or suggestions, please contact:
 
 ## 🧾 Citation
 
-If you use rsRNAQuant in your work, please cite:
+If you use rSEEK in your work, please cite:
 
 > **Huang RF**, **Zhang XO**.
-> **rsRNAQuant: a reproducible pipeline for comprehensive quantification of extracellular vesicle small RNAs**.
+> **rSEEK: a reproducible pipeline for comprehensive quantification of extracellular vesicle small RNAs**.
 > (Manuscript in preparation)
